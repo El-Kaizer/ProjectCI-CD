@@ -6,9 +6,7 @@ pipeline {
                 script {
                     def branchName = env.BRANCH_NAME
                     echo "Building Docker image for branch: ${branchName}"
-                    bat """
-                    docker build -t python-app:%BRANCH_NAME% .
-                    """
+                    sh 'docker build -t python-app:${BRANCH_NAME} .'
                 }
             }
         }
@@ -16,9 +14,7 @@ pipeline {
             steps {
                 script {
                     echo "Running Docker container..."
-                    bat """
-                    winpty docker run -it --rm python-app:%BRANCH_NAME%
-                    """
+                    sh 'winpty docker run -it --rm python-app:${BRANCH_NAME}'
                 }
             }
         }
