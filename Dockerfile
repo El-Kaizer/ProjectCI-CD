@@ -5,9 +5,8 @@ FROM python:3.11-slim
 WORKDIR /app
 
 # Copy the Python application file into the container
-ARG src="Method-Numeric-Calculator.py"
-ARG target="app/"
-COPY ${src} ${target}
+# Salin file Python ke direktori kerja
+COPY "Method-Numeric-Calculator.py" .
 
 # Install Flask (or other dependencies if necessary)
 RUN pip install Flask
