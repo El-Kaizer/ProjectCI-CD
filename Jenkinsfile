@@ -17,7 +17,7 @@ pipeline {
                 script {
                     echo "Running Docker container..."
                     bat """
-                    docker run -it --rm python-app:%BRANCH_NAME%
+                    winpty docker run -it --rm python-app:%BRANCH_NAME%
                     """
                 }
             }
