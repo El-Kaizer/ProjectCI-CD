@@ -5,7 +5,7 @@ FROM python:3.11-slim
 WORKDIR /app
 
 # Copy the Python application file into the container
-ARG src="Method Numeric Calculator.py"
+ARG src="Method-Numeric-Calculator.py"
 ARG target="app/"
 COPY ${src} ${target}
 
@@ -13,4 +13,4 @@ COPY ${src} ${target}
 RUN pip install Flask
 
 # Run the Python application
-CMD ["python", "Method Numeric Calculator.py"]
+CMD ["python", "Method-Numeric-Calculator.py"]
