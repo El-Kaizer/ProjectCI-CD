@@ -1,5 +1,14 @@
 import math
 import random
+import sys
+
+def mock_input(prompt=""):
+    # Fungsi untuk membaca input dari file
+    try:
+        return input_stream.pop(0)
+    except IndexError:
+        print("Error: Tidak ada input yang cukup dalam file.")
+        sys.exit(1)
 
 # Fungsi dan turunannya
 def f_a(x):
@@ -297,49 +306,71 @@ def right_input(prompt):
 
 # Program Utama
 def main():
-    while True:
-        print("\n==========================================")
-        print("Pilih fungsi:")
-        print("1. f(x) = sin(x) - 0.3e^x")
-        print("2. f(x) = 0.1x^3 - 5x^2 - x + 4 + e^-x")
-        print("3. Hitung 2 persamaan x dan y dengan sistem nonlinear")
-        print("4. Hitung persamaan Kimia")
-        print("5. Hitung persamaan Fisika")
-        print("6. Keluar")
-        func_choice = int(input("Masukkan pilihan: "))
+    global input_stream
+    input_stream = []
+    
+    # Cek jika ada file input yang diberikan melalui argument command line
+    if len(sys.argv) > 1:
+        input_file = sys.argv[1]
+        try:
+            with open(input_file, 'r') as f:
+                input_stream = f.read().splitlines()
+        except FileNotFoundError:
+            print(f"Error: File {input_file} tidak ditemukan.")
+            sys.exit(1)
+    
+    # Gunakan mock_input menggantikan input()
+    input_original = __builtins__.input
+    __builtins__.input = mock_input
+    
+    # Jalankan program utama
+    try:
+        while True:
+            print("\n==========================================")
+            print("Pilih fungsi:")
+            print("1. f(x) = sin(x) - 0.3e^x")
+            print("2. f(x) = 0.1x^3 - 5x^2 - x + 4 + e^-x")
+            print("3. Hitung 2 persamaan x dan y dengan sistem nonlinear")
+            print("4. Hitung persamaan Kimia")
+            print("5. Hitung persamaan Fisika")
+            print("6. Keluar")
+            func_choice = int(input("Masukkan pilihan: "))
 
-        if func_choice == 1:
-            f = f_a
-            df = df_a
-            Four_nonlinear_function(f, df)
-        elif func_choice == 2:
-            f = f_b
-            df = df_b
-            Four_nonlinear_function(f, df)
-        elif func_choice == 3:
-            h = right_input("\nMasukkan nilai h: ")
-            x0 = right_input("Masukkan tebakan awal x: ")
-            y0 = right_input("Masukkan tebakan awal y: ")
-            epsilon = 0.1 * h**4
-            nonlinear_function(h, x0, y0, epsilon)
-        elif func_choice == 4:
-            chemistry_method()
-        elif func_choice == 5:
-            Pi = right_input("Masukkan tekanan awal Pi (bar): ")
-            Ti = right_input("Masukkan temperatur awal Ti (°R): ")
-            Vc = right_input("Masukkan volume clearance Vc (m^3): ")
-            d = right_input("Masukkan diameter silinder d (m): ")
-            r = right_input("Masukkan panjang jari-jari r (m): ")
-            l = right_input("Masukkan panjang penghubung l (m): ")
-            theta = right_input("Masukkan sudut theta (°): ")
-            Vi = right_input("Masukkan volume awal Vi (m^3): ")
-            physical_function(Pi, Ti, Vc, d, r, l, theta,Vi)
-        elif func_choice == 6:
-            print("Terima kasih telah menggunakan program ini.")
-            break
-        else:
-            print("Pilihan tidak valid.")
-            return
+            if func_choice == 1:
+                f = f_a
+                df = df_a
+                Four_nonlinear_function(f, df)
+            elif func_choice == 2:
+                f = f_b
+                df = df_b
+                Four_nonlinear_function(f, df)
+            elif func_choice == 3:
+                h = right_input("\nMasukkan nilai h: ")
+                x0 = right_input("Masukkan tebakan awal x: ")
+                y0 = right_input("Masukkan tebakan awal y: ")
+                epsilon = 0.1 * h**4
+                nonlinear_function(h, x0, y0, epsilon)
+            elif func_choice == 4:
+                chemistry_method()
+            elif func_choice == 5:
+                Pi = right_input("Masukkan tekanan awal Pi (bar): ")
+                Ti = right_input("Masukkan temperatur awal Ti (°R): ")
+                Vc = right_input("Masukkan volume clearance Vc (m^3): ")
+                d = right_input("Masukkan diameter silinder d (m): ")
+                r = right_input("Masukkan panjang jari-jari r (m): ")
+                l = right_input("Masukkan panjang penghubung l (m): ")
+                theta = right_input("Masukkan sudut theta (°): ")
+                Vi = right_input("Masukkan volume awal Vi (m^3): ")
+                physical_function(Pi, Ti, Vc, d, r, l, theta, Vi)
+            elif func_choice == 6:
+                print("Terima kasih telah menggunakan program ini.")
+                break
+            else:
+                print("Pilihan tidak valid.")
+                return
+    finally:
+        # Kembalikan input ke fungsi asli
+        __builtins__.input = input_original
 
 def Four_nonlinear_function(f, df):
     print("\nPilih metode:")
